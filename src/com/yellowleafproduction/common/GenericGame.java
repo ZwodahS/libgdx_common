@@ -34,6 +34,10 @@ public abstract class GenericGame extends Game implements AssetsHolder
      * Store the list of sound.
      */
     private ArrayMap<String, Sound> soundMap;
+    /**
+     * Stores the animation frames
+     */
+    private ArrayMap<String, TextureRegion[]> animationFrames;
     
     public GenericGame()
     {
@@ -41,6 +45,7 @@ public abstract class GenericGame extends Game implements AssetsHolder
         regionMap = new ArrayMap<String, TextureRegion>();
         fontMap = new ArrayMap<String, BitmapFont>();
         soundMap = new ArrayMap<String, Sound>();
+        animationFrames = new ArrayMap<String, TextureRegion[]>();
     }
     
     public float getStageWidth()
@@ -128,6 +133,19 @@ public abstract class GenericGame extends Game implements AssetsHolder
         return texture;
     }
     
+    public void addAnimations(String id, TextureRegion[] regions)
+    {
+        if(regions == null)
+        {
+            return;
+        }
+        animationFrames.put(id, regions);
+    }
+    
+    public TextureRegion[] getAnimationFrames(String id)
+    {
+        return animationFrames.get(id);
+    }
     /**
      * Add a texture region
      */

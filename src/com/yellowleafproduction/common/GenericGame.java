@@ -106,13 +106,14 @@ public abstract class GenericGame extends Game implements AssetsHolder
      * Add a texture.
      * if texture exist, it will be overwrite.
      */
-    public void addTexture(String id, Texture t)
+    public Texture addTexture(String id, Texture t)
     {
         if(t == null)
         {
-            return;
+            return null;
         }
         textureMap.put(id, t);
+        return t;
     }
     /**
      * Return the texture with this id.
@@ -133,13 +134,14 @@ public abstract class GenericGame extends Game implements AssetsHolder
         return texture;
     }
     
-    public void addAnimations(String id, TextureRegion[] regions)
+    public TextureRegion[] addAnimations(String id, TextureRegion[] regions)
     {
         if(regions == null)
         {
-            return;
+            return null;
         }
         animationFrames.put(id, regions);
+        return regions;
     }
     
     public TextureRegion[] getAnimationFrames(String id)
@@ -149,13 +151,14 @@ public abstract class GenericGame extends Game implements AssetsHolder
     /**
      * Add a texture region
      */
-    public void addTextureRegion(String id, TextureRegion t)
+    public TextureRegion addTextureRegion(String id, TextureRegion t)
     {
         if(t == null)
         {
-            return;
+            return null;
         }
         regionMap.put(id, t);
+        return t;
     }
     /**
      * Return the texture region of this id.
@@ -180,13 +183,14 @@ public abstract class GenericGame extends Game implements AssetsHolder
     /**
      * add a bitmap font
      */
-    public void addBitmapFont(String id, BitmapFont font)
+    public BitmapFont addBitmapFont(String id, BitmapFont font)
     {
         if(font == null)
         {
-            return;
+            return null;
         }
         fontMap.put(id, font);
+        return font;
     }
     /**
      * get a bitmap font
@@ -198,13 +202,14 @@ public abstract class GenericGame extends Game implements AssetsHolder
     /**
      * add a sound
      */
-    public void addSound(String id, Sound sound)
+    public Sound addSound(String id, Sound sound)
     {
         if(sound == null)
         {
-            return;
+            return null;
         }
         soundMap.put(id, sound);
+        return sound;
     }
     /**
      * get a sound
@@ -219,6 +224,7 @@ public abstract class GenericGame extends Game implements AssetsHolder
      */
     public void dispose() 
     {
+        super.dispose();
         for(Texture t : textureMap.values())
         {
             t.dispose();

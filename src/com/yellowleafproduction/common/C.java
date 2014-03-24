@@ -1,6 +1,7 @@
 package com.yellowleafproduction.common;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
@@ -46,5 +47,11 @@ public class C
     {
         sprite.setPosition(x, y);
         return sprite;
+    }
+    
+    public final static BitmapFont setColor(BitmapFont font, Color color)
+    {
+        font.setColor(color);
+        return font;
     }
 }

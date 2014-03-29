@@ -129,7 +129,7 @@ public abstract class GenericGame extends Game implements AssetsHolder
      */
     public Texture loadTexture(String id, String path)
     {
-        Texture texture = new Texture(Gdx.files.internal("data/main.png"));
+        Texture texture = new Texture(Gdx.files.internal(path));
         addTexture(id, texture); 
         return texture;
     }

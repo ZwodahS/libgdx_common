@@ -3,6 +3,7 @@ package com.yellowleafproduction.common.ui;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.math.Vector2;
 
 public class BoundedText
 {
@@ -10,6 +11,10 @@ public class BoundedText
     private String string;
     private float x;
     private float y;
+    private float originX;
+    private float originY;
+    private AlignmentX alignmentX;
+    private float scale;
     private BitmapFont font;
 
     public BoundedText()
@@ -17,6 +22,7 @@ public class BoundedText
         string = "";
         x = 0;
         y = 0;
+        scale = 1.0f;
         font = null;
     }
     
@@ -24,8 +30,34 @@ public class BoundedText
     {
         if(font != null)
         {
-            font.draw(batch, string, x, y);
+            if(scale != 1.0f)
+            {
+                float tmpX = font.getScaleX();
+                float tmpY = font.getScaleY();
+                font.setScale(scale);
+                font.draw(batch, string, x, y);
+                font.setScale(tmpX, tmpY);
+            }
+            else
+            {
+                font.draw(batch, string, x, y);
+            }
         }
+    }
+    
+    public BoundedText setPosition(float x, float y)
+    {
+        return setDrawParameter(this.font, x, y, this.string, this.alignmentX);
+    }
+    
+    public void setPosition(Vector2 position)
+    {
+        setPosition(position.x, position.y);
+    }
+    
+    public void setScale(float scale)
+    {
+        this.scale = scale;
     }
     
     public BoundedText setDrawParameter(String string)
@@ -44,6 +76,8 @@ public class BoundedText
     
     public BoundedText setDrawParameter(BitmapFont font, float x, float y, String string, AlignmentX alignmentX)
     {
+        this.originX = x;
+        this.originY = y;
         if(font == null)
         {
             return this;
@@ -67,7 +101,18 @@ public class BoundedText
         this.y = y;
         this.string = string;
         this.font = font;
+        this.alignmentX = alignmentX;
         return this;
+    }
+    
+    public float getOriginX()
+    {
+        return originX;
+    }
+    
+    public float getOriginY()
+    {
+        return originY;
     }
     
     /**

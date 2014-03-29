@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * For example, Sprite's set Color not return itself.
  * Because of that if you need to set the color and the size of the sprite you need to do it in 2 lines.
  *  
- *  Chaining is best uses during construction of objects and in objects where the behavior of those methods are clear, like setColor setSize.
+ * Chaining is best uses during construction of objects and in objects where the behavior of those methods are clear, like setColor setSize.
  */
 public class C
 {
@@ -32,12 +32,25 @@ public class C
         sprite.setColor(color);
         return sprite;
     }
+    public final static Sprite setColor(Sprite sprite, float r, float g, float b, float a)
+    {
+        sprite.setColor(r, g, b, a);
+        return sprite;
+    }
     /**
      * Flip the sprite.
      */
     public final static Sprite flip(Sprite sprite, boolean flipX, boolean flipY)
     {
         sprite.flip(flipX, flipY);
+        return sprite;
+    }
+    /**
+     * Rotate the sprite
+     */
+    public final static Sprite rotate(Sprite sprite, float degrees)
+    {
+        sprite.setRotation(degrees);
         return sprite;
     }
     /**

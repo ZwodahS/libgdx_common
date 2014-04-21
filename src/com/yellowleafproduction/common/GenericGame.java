@@ -18,6 +18,17 @@ public abstract class GenericGame extends Game implements AssetsHolder
     private float stageWidth;
     private float stageHeight;
     
+    private float targetWidth;
+    private float targetHeight;
+    
+    protected enum StageCalculationType
+    {
+        Width,
+        Height,
+        WidthHeight,
+        HeightWidth,
+    }
+    
     /**
      * Store the list of texture.
      */
@@ -39,13 +50,52 @@ public abstract class GenericGame extends Game implements AssetsHolder
      */
     private ArrayMap<String, TextureRegion[]> animationFrames;
     
+    private StageCalculationType calculationType;
+    
     public GenericGame()
     {
-        textureMap = new ArrayMap<String, Texture>();
-        regionMap = new ArrayMap<String, TextureRegion>();
-        fontMap = new ArrayMap<String, BitmapFont>();
-        soundMap = new ArrayMap<String, Sound>();
-        animationFrames = new ArrayMap<String, TextureRegion[]>();
+        this.textureMap = new ArrayMap<String, Texture>();
+        this.regionMap = new ArrayMap<String, TextureRegion>();
+        this.fontMap = new ArrayMap<String, BitmapFont>();
+        this.soundMap = new ArrayMap<String, Sound>();
+        this.animationFrames = new ArrayMap<String, TextureRegion[]>();
+    }
+    
+    protected void setStageCalculationParameter(float targetWidth, float targetHeight, StageCalculationType calculationType)
+    {
+        this.calculationType = calculationType;
+        this.targetHeight = targetHeight;
+        this.targetWidth = targetWidth;
+        recalculateSize();
+    }
+    
+    /**
+     * recalculate the stage width height using the method defined
+     */
+    protected void recalculateSize()
+    {
+        recalculateSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+    
+    protected void recalculateSize(int width, int height)
+    {
+        switch(calculationType)
+        {
+        case Height:
+            calculateStageSizeByHeight(width, height, targetHeight);
+            break;
+        case HeightWidth:
+            calculateStageSizeByBothHeightFirst(width, height, targetWidth, targetHeight);
+            break;
+        case Width:
+            calculateStageSizeByWidth(width, height, targetWidth);
+            break;
+        case WidthHeight:
+            calculateStageSizeByBothWidthFirst(width, height, targetWidth, targetHeight);
+            break;
+        default:
+            break;
+        }
     }
     
     public float getStageWidth()
@@ -65,17 +115,24 @@ public abstract class GenericGame extends Game implements AssetsHolder
      */
     public void calculateStageSizeByWidth(float screenWidth, float screenHeight, float targetWidth)
     {
+        this.targetWidth = targetWidth;
+        this.calculationType = StageCalculationType.Width;
         stageWidth = targetWidth;
         stageHeight = (screenHeight/screenWidth) * stageWidth;
     }
     
     public void calculateStageSizeByHeight(float screenWidth, float screenHeight, float targetHeight)
     {
+        this.targetHeight = targetHeight;
+        this.calculationType = StageCalculationType.Height;
         stageHeight = targetHeight;
         stageWidth = (screenWidth/screenHeight) * stageHeight;
     }
     public void calculateStageSizeByBothWidthFirst(float screenWidth, float screenHeight, float minimumWidth, float minimumHeight)
     {
+        this.targetHeight = minimumHeight;
+        this.targetWidth = minimumWidth;
+        this.calculationType = StageCalculationType.WidthHeight;
         float heightIfWidth = (screenHeight/screenWidth) * minimumWidth;
         if(heightIfWidth > minimumHeight)
         {
@@ -90,6 +147,9 @@ public abstract class GenericGame extends Game implements AssetsHolder
     }
     public void calculateStageSizeByBothHeightFirst(float screenWidth, float screenHeight, float minimumWidth, float minimumHeight)
     {
+        this.targetHeight = minimumHeight;
+        this.targetWidth = minimumWidth;
+        this.calculationType = StageCalculationType.HeightWidth;
         float widthIfHeight = (screenWidth/screenHeight) * minimumHeight;
         if(widthIfHeight > minimumWidth)
         {
@@ -240,4 +300,12 @@ public abstract class GenericGame extends Game implements AssetsHolder
             s.dispose();
         }
     }
+    
+    @Override
+    public void resize(int width, int height)
+    {
+        recalculateSize(width, height);
+        super.resize(width, height);
+    }
+    
 }

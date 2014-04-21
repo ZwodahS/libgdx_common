@@ -3,6 +3,7 @@ package com.yellowleafproduction.common;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * C, also known as Chaining, allow easy chaining of methods.
@@ -37,6 +38,11 @@ public class C
         sprite.setColor(r, g, b, a);
         return sprite;
     }
+    public final static Sprite setColor(Sprite sprite, float floatBits)
+    {
+        sprite.setColor(floatBits);
+        return sprite;
+    }
     /**
      * Flip the sprite.
      */
@@ -59,6 +65,11 @@ public class C
     public final static Sprite setPosition(Sprite sprite, float x, float y)
     {
         sprite.setPosition(x, y);
+        return sprite;
+    }
+    public final static Sprite setPosition(Sprite sprite, Vector2 position)
+    {
+        sprite.setPosition(position.x, position.y);
         return sprite;
     }
     

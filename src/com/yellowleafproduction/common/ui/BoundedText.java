@@ -66,7 +66,7 @@ public class BoundedText
         {
             return this;
         }
-        return setDrawParameter(this.font, this.x, this.y, string);
+        return setDrawParameter(this.font, this.originX, this.originY, string);
     }
     
     public BoundedText setDrawParameter(BitmapFont font, float x, float y, String string)
@@ -159,5 +159,10 @@ public class BoundedText
             }
         }
         return false;
+    }
+
+    public BoundedText setString(String newString)
+    {
+        return setDrawParameter(this.font, this.originX, this.originY, newString, this.alignmentX);
     }
 }
